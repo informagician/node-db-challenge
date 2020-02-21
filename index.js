@@ -24,7 +24,7 @@ server.get('/api/resource', (req,res) => {
 
     Project.getResources()
     .then(resource => {
-        res.status(201).json(resource)
+        res.status(200).json(resource)
     })
     .catch(err => {
         console.log(err)
@@ -48,7 +48,7 @@ server.get('/api/project', (req,res) => {
 
     Project.getProjects()
     .then(project => {
-        res.status(201).json(project)
+        res.status(200).json(project)
     })
     .catch(err => {
         console.log(err)
@@ -73,11 +73,42 @@ server.get('/api/task', (req,res) => {
 
     Project.getTasks()
     .then(tasks => {
-        res.status(201).json(tasks)
+        res.status(200).json(tasks)
     })
     .catch(err => {
         console.log(err)
         res.status(500).json({ errorMessage: "No Tasks Found"})
+    })
+})
+
+server.get('/api/project/:id',(req,res)=>{
+    const id = req.params.id
+    let resourceItems = []
+    let taskItems = []
+
+    Project.getTaskByProjectId(id)
+    .then(items => {
+        taskItems.push(...items)
+    })
+    .catch(err => {
+        taskItems.push("no resources found")
+    })
+
+    Project.getResourceByProjectId(id)
+    .then(items => {
+        resourceItems.push(...items)
+    })
+    .catch(err => {
+        resourceItems.push("no resources found")
+    })
+
+    Project.getProjectById(id)
+    .then(project => {
+        res.status(200).json({...project,tasks:taskItems, resources:resourceItems})
+    })
+    .catch(err => {
+        console.log(err)
+        res.status(500).json({ errorMessage: "Problem with get Projects by id"})
     })
 })
 

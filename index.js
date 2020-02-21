@@ -20,5 +20,17 @@ server.post('/api/resource', (req,res) => {
     })
 })
 
+server.get('/api/resource', (req,res) => {
+
+    Project.getResources()
+    .then(resource => {
+        res.status(201).json(resource)
+    })
+    .catch(err => {
+        console.log(err)
+        res.status(500).json({ errorMessage: "No Resources Found"})
+    })
+})
+
 const port = 5000;
 server.listen(port, () => console.log('\n** Listening on Port 5000 **\n'))

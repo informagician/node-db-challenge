@@ -56,6 +56,6 @@ function getResourceByProjectId(id){
     return db('resource')
     .select('resource.id as id','resource.name as name','resource.description as description')
     //.select('*')
-    .join('project_resource','project_resource.project_id','resource.id')
+    .join('project_resource','project_resource.resource_id','resource.id')
     .where({project_id:id})
 }

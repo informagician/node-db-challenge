@@ -56,5 +56,30 @@ server.get('/api/project', (req,res) => {
     })
 })
 
+server.post('/api/task', (req,res) => {
+    const task = req.body
+
+    Project.addTask(task)
+    .then(id => {
+        res.status(201).json(id)
+    })
+    .catch(err => {
+        console.log(err)
+        res.status(500).json({ errorMessage: "Add Task not working!"})
+    })
+})
+
+server.get('/api/task', (req,res) => {
+
+    Project.getTasks()
+    .then(tasks => {
+        res.status(201).json(tasks)
+    })
+    .catch(err => {
+        console.log(err)
+        res.status(500).json({ errorMessage: "No Tasks Found"})
+    })
+})
+
 const port = 5000;
 server.listen(port, () => console.log('\n** Listening on Port 5000 **\n'))

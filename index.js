@@ -32,5 +32,29 @@ server.get('/api/resource', (req,res) => {
     })
 })
 
+server.post('/api/project', (req,res) => {
+    const project = req.body
+    Project.addProjects(project)
+    .then(id => {
+        res.status(201).json(id)
+    })
+    .catch(err => {
+        console.log(err)
+        res.status(500).json({ errorMessage: "Add project not working!"})
+    })
+})
+
+server.get('/api/project', (req,res) => {
+
+    Project.getProjects()
+    .then(project => {
+        res.status(201).json(project)
+    })
+    .catch(err => {
+        console.log(err)
+        res.status(500).json({ errorMessage: "No projects Found"})
+    })
+})
+
 const port = 5000;
 server.listen(port, () => console.log('\n** Listening on Port 5000 **\n'))

@@ -3,7 +3,9 @@ const db = knex(require('../knexfile').development)
 
 module.exports = {
     addResources,
-    getResources
+    getResources,
+    addProjects,
+    getProjects
 }
 
 function addResources(resource) {
@@ -13,4 +15,13 @@ function addResources(resource) {
 
 function getResources() {
     return db('resource')
+}
+
+function addProjects(project) {
+    return db('project')
+        .insert(project, 'id')
+}
+
+function getProjects() {
+    return db('project')
 }
